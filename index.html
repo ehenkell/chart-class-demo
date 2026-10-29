@@ -1,100 +1,117 @@
-<canvas id="myChart"></canvas>
-<script
- src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-const labels = ['8:00','8:05','8:10','8:15','8:20','8:25','8:30','8:35'];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Einstein Bagel',
-      data: [6,5,4],
-      borderColor: 'yellow',
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.3
-    },
-    {
-      label: 'Dunkin',
-      data: [16,14,11,15,11,10],
-      borderColor: 'orange',
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.3
-    },
-    {
-      label: 'Panera',
-      data: [13,14,13,12],
-      borderColor: 'green',
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.3
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My Online Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background-color: #f8f6f2;
+      color: #292d32;
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
     }
-  ]
-};
 
-const totalDuration = 10000;
-const maxPoints = Math.max(...data.datasets.map(ds => ds.data.length));
-const delayBetweenPoints = totalDuration / maxPoints;
-
-const previousY = (ctx) => {
-  if (ctx.index === 0) {
-    return ctx.chart.scales.y.getPixelForValue(0);
-  }
-
-  return ctx.chart
-    .getDatasetMeta(ctx.datasetIndex)
-    .data[ctx.index - 1]
-    .getProps(['y'], true).y;
-};
-
-const animation = {
-  x: {
-    type: 'number',
-    easing: 'linear',
-    duration: delayBetweenPoints,
-    from: NaN,
-    delay(ctx) {
-      if (ctx.type !== 'data' || ctx.xStarted) return 0;
-      ctx.xStarted = true;
-      return ctx.index * delayBetweenPoints;
+    header, footer {
+      background-color: #263d36;
+      color: white;
+      padding: 30px 10%;
     }
-  },
-  y: {
-    type: 'number',
-    easing: 'linear',
-    duration: delayBetweenPoints,
-    from: previousY,
-    delay(ctx) {
-      if (ctx.type !== 'data' || ctx.yStarted) return 0;
-      ctx.yStarted = true;
-      return ctx.index * delayBetweenPoints;
-    }
-  }
-};
 
-new Chart(document.getElementById('myChart'), {
-  type: 'line',
-  data,
-  options: {
-    animation,
-    interaction: {
-      intersect: false
-    },
-    plugins: {
-      legend: {
-        display: true
-      }
-    },
-    scales: {
-      x: {
-        type: 'category'
-      },
-      y: {
-        beginAtZero: true
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 24px;
+    }
+
+    section {
+      margin-bottom: 45px;
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, serif;
+    }
+
+    h2 {
+      color: #263d36;
+      border-bottom: 2px solid #d8c5a5;
+      padding-bottom: 8px;
+    }
+
+    .intro-image {
+      width: 100%;
+      max-height: 350px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .chart-card {
+      background: white;
+      padding: 24px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    @media (max-width: 600px) {
+      .photo-grid {
+        grid-template-columns: 1fr;
       }
     }
-  }
-});
-</script>
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>My Online Portfolio</h1>
+    <p>I like cats.</p>
+  </header>
+
+  <main>
+       <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I am an English student at Binghamton University living in Mountainview community. I like cats.
+      </p>
+
+      <img
+        class="intro-image"
+        src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=1200&q=80"
+        alt="Cat sitting and looking up"
+      >
+    </section>
+
+    <section id="interests">
+      <h2>My Interests</h2>
+      <p>
+        I enjoy reading, writing, and cats. 
+      </p>
+
+      <div class="photo-grid">
+        <img
+          src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80"
+          alt="Close-up of a cat"
+        >
+
+      </div>
+    </section>
